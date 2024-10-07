@@ -23,11 +23,10 @@ def connect_db():
 # Generate fake Spot data
 def generate_spot_data():
     return {
-        "id": fake.uuid4(),
         "owner_id": fake.uuid4(),
         "address": fake.address().replace("\n", ", "),
-        "latitude": random.uniform(-90, 90),
-        "longitude": random.uniform(-180, 180),
+        "latitude": random.uniform(48.40, 48.45),
+        "longitude": random.uniform(-123.40, -123.30)
     }
 
 # Insert fake data into the 'spot' table
@@ -39,10 +38,10 @@ def insert_fake_data(conn, num_records):
         try:
             cursor.execute(
                 """
-                INSERT INTO spot (id, owner_id, address, latitude, longitude)
-                VALUES (%s, %s, %s, %s, %s);
+                INSERT INTO spot (owner_id, address, latitude, longitude)
+                VALUES (%s, %s, %s, %s);
                 """,
-                (spot['id'], spot['owner_id'], spot['address'], spot['latitude'], spot['longitude'])
+                (spot['owner_id'], spot['address'], spot['latitude'], spot['longitude'])
             )
         except Exception as e:
             print(f"Error inserting data: {e}")
