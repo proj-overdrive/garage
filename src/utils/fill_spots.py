@@ -5,14 +5,14 @@ import random
 # Initialize Faker
 fake = Faker()
 
-# Connect to PostgreSQL database
+# Connect to PostgreSQL database on AWS RDS
 def connect_db():
     try:
         conn = psycopg2.connect(
-            dbname="postgres",
-            user="postgres",
-            password="postgres",
-            host="localhost",
+            dbname="garage_1",  # Replace with your RDS DB name
+            user="postgres",    # Replace with your RDS DB username
+            password="spoton123",  # Replace with your RDS DB password
+            host="garage-1-instance-1.c1kqaq8akgov.us-west-2.rds.amazonaws.com",  # Replace with your RDS endpoint
             port="5432"
         )
         return conn
@@ -43,6 +43,7 @@ def insert_fake_data(conn, num_records):
                 """,
                 (spot['owner_id'], spot['address'], spot['latitude'], spot['longitude'])
             )
+            print(f"Inserted: {spot['owner_id']} into spot")
         except Exception as e:
             print(f"Error inserting data: {e}")
             conn.rollback()
